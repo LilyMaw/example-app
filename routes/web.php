@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,11 @@ Route::get('/products/{id}', [ProductController::class,'show'])->name("product.s
 Route::get('/cart', [CartController::class,'index'])->name("cart.index");
 Route::get('/cart/delete', [CartController::class,'delete'])->name("cart.delete");
 Route::post('/cart/add/{id}', [CartController::class,'add'])->name("cart.add");
+Route::middleware('auth')->group(function () {
+  Route::get('/cart/purchase', [CartController::class,'purchase'])->name("cart.purchase");
+  Route::get('/my-account/orders', [MyAccountController::class,'orders'])->name("myaccount.orders");
+
+  });
 
 Route::middleware('admin')->group(function () {
 Route::get('/admin', [AdminController::class, 'index'])->name("admin.home.index");
